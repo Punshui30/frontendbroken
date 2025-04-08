@@ -1,0 +1,1 @@
+// GateInPlayground.tsx placeholder content

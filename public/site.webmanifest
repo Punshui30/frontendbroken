@@ -1,0 +1,15 @@
+{
+  "name": "D.A.N. OS",
+  "short_name": "DAN",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#00ff00",
+  "icons": [
+    {
+      "src": "/dan-os-icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "512x512"
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+import { useEffect, useRef, useState } from 'react';
+
+interface BootSequenceProps {
+  onBootComplete: () => void;
+}
+
+export default function BootSequence({ onBootComplete }: BootSequenceProps) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isFadingOut, setIsFadingOut] = useState(false);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const completeBoot = () => {
+      setIsFadingOut(true);
+      setTimeout(() => onBootComplete(), 1000); // smooth fade-out
+    };
+
+    const handleEnd = () => completeBoot();
+
+    const handleLoaded = () => {
+      video.play().catch((err) => {
+        console.error('Autoplay blocked:', err);
+        completeBoot();
+      });
+    };
+
+    const handleError = () => {
+      console.error('Boot video failed to load');
+      completeBoot();
+    };
+
+    // Emergency fallback if nothing fires
+    const fallbackTimeout = setTimeout(() => {
+      console.warn('Boot timeout fallback triggered');
+      completeBoot();
+    }, 5000);
+
+    video.addEventListener('ended', handleEnd);
+    video.addEventListener('loadeddata', handleLoaded);
+    video.addEventListener('error', handleError);
+
+    return () => {
+      video.removeEventListener('ended', handleEnd);
+      video.removeEventListener('loadeddata', handleLoaded);
+      video.removeEventListener('error', handleError);
+      clearTimeout(fallbackTimeout);
+    };
+  }, [onBootComplete]);
+
+  return (
+    <div
+      className={`fixed inset-0 z-50 flex items-center justify-center bg-black transition-opacity duration-1000 ${
+        isFadingOut ? 'opacity-0 pointer-events-none' : 'opacity-100'
+      }`}
+    >
+      <video
+        ref={videoRef}
+        className="absolute inset-0 w-full h-full object-cover"
+        src="/assets/boot.mp4"
+        autoPlay
+        muted
+        playsInline
+        preload="auto"
+      />
+      <p className="text-lg text-gold font-mono z-10 animate-pulse">
+        loading system...
+      </p>
+    </div>
+  );
+}

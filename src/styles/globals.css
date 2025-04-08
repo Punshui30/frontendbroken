@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* === GLOBAL RESETS & BASE === */
+html, body {
+  @apply bg-background text-foreground font-sans overflow-hidden m-0 p-0;
+  height: 100%;
+  width: 100%;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* === SYSTEM WINDOW LAYOUTS === */
+#root, #__next {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #0D0F1A;
+}
+
+/* === SCROLLBAR OVERRIDE === */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #2C3E50;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #D4AF37;
+}
+
+/* === BOOT + UI EFFECTS === */
+.fade-in {
+  animation: fadeIn 0.6s ease-in-out forwards;
+  opacity: 0;
+}
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.glow {
+  animation: glow 2s ease-in-out infinite;
+}
+@keyframes glow {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.os-pulse {
+  animation: os-pulse 2s ease-in-out infinite;
+}
+@keyframes os-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+}
+
+/* === LOADING TEXT OVERRIDE === */
+.loading-text {
+  color: #00FF88;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  animation: blink 1s step-start infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.5;
+  }
+}
